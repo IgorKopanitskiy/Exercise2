@@ -1,9 +1,6 @@
 package jm.task.core.jdbc.model;
 
-
-import javax.persistence.*;
-import javax.persistence.Entity;
-
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "user")
@@ -67,7 +64,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "Users{" +
+        return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", lastName='" + lastName + '\'' +

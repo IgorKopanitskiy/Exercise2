@@ -5,12 +5,17 @@ import jm.task.core.jdbc.util.Util;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+
 import java.util.List;
 
 
 public class UserDaoHibernateImpl implements UserDao {
 
-    SessionFactory sessionFactory = Util.getSession();
+    private final SessionFactory sessionFactory;
+
+    public UserDaoHibernateImpl() {
+        this.sessionFactory = Util.getSession();
+    }
 
     @Override
     public void createUsersTable() {
@@ -46,23 +51,22 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void saveUser(String name, String lastName, byte age) {
-        User user = new User(name, lastName, age);
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
 
             //Добавление студентов
-            session.persist(user);
+            session.persist(new User(name, lastName, age));
             transaction.commit();
 
         } catch (Exception e) {
+            e.printStackTrace();
             if (transaction != null) {
                 transaction.rollback();
             }
             throw e;
         }
     }
-
 
     @Override
     public void removeUserById(long id) {
@@ -87,7 +91,7 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
     public List<User> getAllUsers() {
         try (Session session = sessionFactory.openSession()) {
-            List<User> allUsers = session.createQuery("SELECT s from user s", User.class)
+            List<User> allUsers = session.createNativeQuery("SELECT *from user", User.class)
                     .list();
             System.out.println(allUsers);
             return allUsers;
@@ -95,7 +99,6 @@ public class UserDaoHibernateImpl implements UserDao {
             throw e;
         }
     }
-
 
     @Override
     public void cleanUsersTable() {
