@@ -15,7 +15,7 @@ public class Util {
     private Util() {
     }
 
-    public static SessionFactory getSession() {
+    public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
             Configuration configuration = new Configuration();
 
@@ -41,13 +41,15 @@ public class Util {
     private static final String DB_USERNAME = "root";
     private static final String DB_PASSWORD = "Forpost3034!";
 
-    public static Connection getConnection() throws ClassNotFoundException, SQLException {
+    public static Connection getConnection() throws SQLException {
 
         Connection connection = null;
-
-        Class.forName(DB_DRIVER);
-        connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
-
+        try {
+            Class.forName(DB_DRIVER);
+            connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         return connection;
     }
 }

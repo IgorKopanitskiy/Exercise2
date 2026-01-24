@@ -14,7 +14,7 @@ public class UserDaoHibernateImpl implements UserDao {
     private final SessionFactory sessionFactory;
 
     public UserDaoHibernateImpl() {
-        this.sessionFactory = Util.getSession();
+        this.sessionFactory = Util.getSessionFactory();
     }
 
     @Override
@@ -22,7 +22,12 @@ public class UserDaoHibernateImpl implements UserDao {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            session.createNativeQuery("CREATE TABLE IF NOT EXISTS user (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(40), lastName VARCHAR(40), age TINYINT UNSIGNED)")
+            session.createNativeQuery("CREATE TABLE " +
+                            "IF NOT EXISTS user" +
+                            " (id INT PRIMARY KEY AUTO_INCREMENT," +
+                            " name VARCHAR(40)," +
+                            " lastName VARCHAR(40)," +
+                            " age TINYINT UNSIGNED)")
                     .executeUpdate();
             transaction.commit();
         } catch (Exception e) {
