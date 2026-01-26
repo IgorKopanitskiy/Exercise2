@@ -31,6 +31,7 @@ public class UserDaoHibernateImpl implements UserDao {
                     .executeUpdate();
             transaction.commit();
         } catch (Exception e) {
+            System.out.println("Ошибка при создании таблицы User-ов");
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -47,6 +48,7 @@ public class UserDaoHibernateImpl implements UserDao {
                     .executeUpdate();
             transaction.commit();
         } catch (Exception e) {
+            System.out.println("Ошибка при удалении таблицы User-ов");
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -65,6 +67,7 @@ public class UserDaoHibernateImpl implements UserDao {
             transaction.commit();
 
         } catch (Exception e) {
+            System.out.println("Ошибка при добавлении User в таблицу");
             e.printStackTrace();
             if (transaction != null) {
                 transaction.rollback();
@@ -86,6 +89,7 @@ public class UserDaoHibernateImpl implements UserDao {
             transaction.commit();
 
         } catch (Exception e) {
+            System.out.println("Ошибка при удалении User из таблицы");
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -101,6 +105,7 @@ public class UserDaoHibernateImpl implements UserDao {
             System.out.println(allUsers);
             return allUsers;
         } catch (Exception e) {
+            System.out.println("Ошибка при получении списка всех User-ов");
             throw e;
         }
     }
@@ -114,6 +119,7 @@ public class UserDaoHibernateImpl implements UserDao {
                     .executeUpdate();
             transaction.commit();
         } catch (Exception e) {
+            System.out.println("Ошибка при очищении таблицы User-ов");
             if (transaction != null) {
                 transaction.rollback();
             }
